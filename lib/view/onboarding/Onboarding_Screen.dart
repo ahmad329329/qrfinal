@@ -5,7 +5,7 @@ import 'package:qrfinal/view_models/Controller/onboarding_Controller.dart';
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
 
-  final OnboardingController controller = Get.put(OnboardingController());
+  final OnboardingController controller = Get.find<OnboardingController>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +15,21 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Obx(() => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "${controller.currentPage.value + 1}/${controller.onboardingData.length}",
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  TextButton(
-                    onPressed: controller.skip,
-                    child:  Text("skip".tr,
-                        style: TextStyle(color: Colors.black)),
-                  ),
-                ],
-              )),
+              child: Obx(() {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${controller.currentPage.value + 1}/${controller.onboardingData.length}",
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    TextButton(
+                      onPressed: controller.skip,
+                      child: Text("skip".tr, style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
+                );
+              }),
             ),
 
             // PageView
@@ -48,55 +49,52 @@ class OnboardingScreen extends StatelessWidget {
               ),
             ),
 
-            Obx(() => Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                controller.onboardingData.length,
-                    (index) => buildDot(index, controller.currentPage.value),
-              ),
-            )),
+            // Dot indicator
+            Obx(() {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  controller.onboardingData.length,
+                      (index) => buildDot(index, controller.currentPage.value),
+                ),
+              );
+            }),
 
             const SizedBox(height: 20),
 
             // Navigation Buttons
-            Obx(() => Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  controller.currentPage.value == 0
-                      ? const SizedBox(width: 60)
-                      : TextButton(
-                    onPressed: controller.previousPage,
-                    child: Text("previous".tr,
-                        style: TextStyle(color: Colors.grey)),
-                  ),
-                  controller.currentPage.value ==
-                      controller.onboardingData.length - 1
-                      ? ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 12),
+            Obx(() {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    controller.currentPage.value == 0
+                        ? const SizedBox(width: 60)
+                        : TextButton(
+                      onPressed: controller.previousPage,
+                      child: Text("previous".tr, style: TextStyle(color: Colors.grey)),
                     ),
-                    onPressed: controller.skip,
-                    child:  Text(
-                      "getstarted".tr,
-                      style: TextStyle(
-                          fontSize: 16, color: Colors.white),
+                    controller.currentPage.value == controller.onboardingData.length - 1
+                        ? ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
+                      onPressed: controller.skip,
+                      child: Text("getstarted".tr, style: TextStyle(fontSize: 16, color: Colors.white)),
+                    )
+                        : TextButton(
+                      onPressed: controller.nextPage,
+                      child: Text("next".tr, style: TextStyle(color: Colors.blueAccent)),
                     ),
-                  )
-                      : TextButton(
-                    onPressed: controller.nextPage,
-                    child: Text("next".tr,
-                        style: TextStyle(color: Colors.blueAccent)),
-                  ),
-                ],
-              ),
-            )),
+                  ],
+                ),
+              );
+            }),
           ],
         ),
       ),
@@ -115,13 +113,9 @@ class OnboardingScreen extends StatelessWidget {
         children: [
           Image.asset(image, height: 300),
           const SizedBox(height: 30),
-          Text(title,
-              style:
-              const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
-          Text(desc,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.grey)),
+          Text(desc, textAlign: TextAlign.center, style: const TextStyle(color: Colors.grey)),
         ],
       ),
     );
@@ -140,3 +134,4 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 }
+

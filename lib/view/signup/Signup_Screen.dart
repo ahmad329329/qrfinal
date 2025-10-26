@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qrfinal/res/routes/routes_names.dart';
+import 'package:qrfinal/view_models/Controller/Signup_Controllerl.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -12,7 +13,7 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
 
-  // final SignUpController signUpController = Get.find<SignUpController>();
+  final SignupController signUpController = Get.find<SignupController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Password Field
                 TextField(
+                  controller: signUpController.passwordController.value,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock_outline),
@@ -120,6 +122,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+
                     const Text("I Already Have an Account "),
                     GestureDetector(
                       onTap: () {

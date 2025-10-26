@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qrfinal/view/Home_Screen/Home_Screen.dart';
+import 'package:qrfinal/view_models/Controller/login_Controllerl.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,8 +11,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // ✅ Make it observable
-  final RxBool _obscurePassword = true.obs;
+
+  LoginController loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Form(
                   child: Column(
                     children: [
-                      TextField(
+                      Obx(()=>TextField(
+                        controller: loginController.emailController.value,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.person_outline),
                           hintText: "Username or Email",
@@ -41,22 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                      ),
+                      ),),
                       const SizedBox(height: 16),
 
                       // ✅ Correct Obx usage
                       Obx(() => TextField(
-                        obscureText: _obscurePassword.value, // ✅ use .value
+                        controller: loginController.passwordController.value,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword.value
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
+                             Icons.icecream_outlined,
                             ),
                             onPressed: () {
-                              _obscurePassword.toggle(); // ✅ toggles true/false reactively
+                              // ✅ toggles true/false reactively
                             },
                           ),
                           hintText: "Password",
