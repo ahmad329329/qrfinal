@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qrscanningapp/Views/Home_Screen.dart';
-import 'package:qrscanningapp/view_models/controllers/Signup_view_model.dart';
-import '../res/approutes/routes_names.dart';
-import 'login_screen.dart';
+import 'package:qrfinal/res/routes/routes_names.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -15,7 +12,7 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
 
-  final sign signUpController = Get.find<SignUpController>();
+  // final SignUpController signUpController = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +33,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Email Field
                 TextField(
-                  controller: signUpController.emailController.value,
-                  focusNode: signUpController.emailFocusMode.value,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.person_outline),
                     hintText: "Username or Email",
@@ -50,8 +45,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Password Field
                 TextField(
-                  controller: signUpController.passwordController.value,
-                  focusNode: signUpController.passwordFocusMode.value,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock_outline),
@@ -77,8 +70,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 // Confirm Password Field
                 TextField(
-                  controller: signUpController.confirmPasswordController.value,
-                  focusNode: signUpController.confirmPasswordFocusMode.value,
                   obscureText: _obscureConfirm,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock_outline),
@@ -108,10 +99,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (signUpController.validateCredentials()) {
-                       Get.toNamed(RouteName.loginview
-                        );
-                      }
+
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
