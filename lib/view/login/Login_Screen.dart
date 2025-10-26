@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qrfinal/res/routes/routes_names.dart';
 import 'package:qrfinal/view/Home_Screen/Home_Screen.dart';
 import 'package:qrfinal/view_models/Controller/login_Controllerl.dart';
 
@@ -11,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _obscurePassword = true;
 
   LoginController loginController = Get.find<LoginController>();
 
@@ -53,10 +55,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
                             icon: Icon(
-                             Icons.icecream_outlined,
+                             Icons.remove,
                             ),
                             onPressed: () {
-                              // ✅ toggles true/false reactively
+                              _obscurePassword
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined;
                             },
                           ),
                           hintText: "Password",
@@ -87,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.to(() => const HomeScreen());
+                            Get.toNamed(RouteName.homescreen);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueAccent,
@@ -111,7 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           const Text("Create An Account "),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed(RouteName.signupscreen);
+                            },
                             child: const Text(
                               "Sign Up",
                               style: TextStyle(
