@@ -34,5 +34,4 @@ class LoginController extends GetxController{
       Utils.snackbar('failed', 'login failed');
     });
   }
-
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:qrfinal/res/routes/routes_names.dart';
 import 'package:qrfinal/view/onboarding/Onboarding_Screen.dart';
 import 'package:qrfinal/view_models/Controller/onboarding_Controller.dart';
 
@@ -23,10 +24,11 @@ class SplashController extends GetxController {
         }
       } else {
         timer.cancel();
-        Get.off(() {
-          Get.put(OnboardingController());
-          return OnboardingScreen();
-        });
+        Get.offNamed(RouteName.onboardingscreen);
+        // Get.off(() {
+        //
+        //   return OnboardingScreen();
+        // });
       }
     });
   }
