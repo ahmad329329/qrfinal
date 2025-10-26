@@ -5,7 +5,7 @@ import 'package:qrfinal/view_models/Controller/Signup_Controllerl.dart';
 
 
 
-class LoginViewBinding extends Bindings {
+class SignupViewBindings extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<SignupController>(() => SignupController());

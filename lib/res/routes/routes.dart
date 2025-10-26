@@ -20,7 +20,7 @@ class AppRoute{
 
     GetPage(name: RouteName.onboardingscreen, page: () => OnboardingScreen(),
         transition: Transition.leftToRightWithFade,
-        binding: OnboardingBindings(),
+        binding: OnboardingViewBindings(),
         transitionDuration: Duration(microseconds: 250)),
 
 

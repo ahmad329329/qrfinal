@@ -7,7 +7,4 @@ class ImageAssets {
   static const String omboading2 = 'assets/images/onbarding_2.png';
   static const String omboading3 = 'assets/images/onbarding_3.png';
 
-
-
-
 }

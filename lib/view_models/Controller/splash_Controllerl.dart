@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:qrfinal/view/onboarding/Onboarding_Screen.dart';
+import 'package:qrfinal/view_models/Controller/onboarding_Controller.dart';
 
 class SplashController extends GetxController {
   var progress = 0.0.obs;
@@ -22,7 +23,10 @@ class SplashController extends GetxController {
         }
       } else {
         timer.cancel();
-        Get.off(() =>  OnboardingScreen());
+        Get.off(() {
+          Get.put(OnboardingController());
+          return OnboardingScreen();
+        });
       }
     });
   }
