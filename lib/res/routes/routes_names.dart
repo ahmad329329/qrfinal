@@ -5,4 +5,5 @@ class RouteName{
   static const  String onboardingscreen = '/onboarding_screen';
   static const  String signupscreen = '/signup_screen';
   static const  String homescreen = '/home_screen';
+  static const  String attendencerecordscreen = '/attendence_record_screen';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qrfinal/res/routes/routes_names.dart';
 import 'package:qrfinal/view_models/Controller/Signup_Controllerl.dart';
+import '../../utils/utils.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -9,11 +10,13 @@ class SignupScreen extends StatefulWidget {
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
+
 class _SignupScreenState extends State<SignupScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
 
   final SignupController signUpController = Get.find<SignupController>();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +35,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 40),
 
-                // Email Field
+                // ✅ Email Field
                 TextField(
+                  controller: signUpController.emailController.value,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.person_outline),
-                    hintText: "Username or Email",
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    hintText: "Email",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -44,18 +48,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Password Field
+                // ✅ Password Field
                 TextField(
                   controller: signUpController.passwordController.value,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                      ),
+                      icon: Icon(_obscurePassword
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined),
                       onPressed: () {
                         setState(() {
                           _obscurePassword = !_obscurePassword;
@@ -70,17 +72,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Confirm Password Field
+                // ✅ Confirm Password Field
                 TextField(
+                  controller: confirmPasswordController,
                   obscureText: _obscureConfirm,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscureConfirm
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                      ),
+                      icon: Icon(_obscureConfirm
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined),
                       onPressed: () {
                         setState(() {
                           _obscureConfirm = !_obscureConfirm;
@@ -95,13 +96,23 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // Signup Button ✅ Fixed
-                SizedBox(
+                // ✅ Signup Button
+                Obx(() => SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {
-
+                    onPressed: signUpController.loading.value
+                        ? null
+                        : () {
+                      // check confirm password
+                      if (signUpController
+                          .passwordController.value.text !=
+                          confirmPasswordController.text) {
+                        Utils.snackbar('Error',
+                            'Password and Confirm Password do not match');
+                        return;
+                      }
+                      signUpController.signupApi();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
@@ -109,20 +120,21 @@ class _SignupScreenState extends State<SignupScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text(
+                    child: signUpController.loading.value
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
                       "Create Account",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 18, color: Colors.white),
                     ),
                   ),
-                ),
-
+                )),
                 const SizedBox(height: 40),
 
-                // Navigation to Login
+                // ✅ Go to Login
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     const Text("I Already Have an Account "),
                     GestureDetector(
                       onTap: () {

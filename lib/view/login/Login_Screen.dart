@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qrfinal/res/routes/routes_names.dart';
-import 'package:qrfinal/view/Home_Screen/Home_Screen.dart';
 import 'package:qrfinal/view_models/Controller/login_Controllerl.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
 
-  LoginController loginController = Get.find<LoginController>();
+  final LoginController loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,31 +35,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 Form(
                   child: Column(
                     children: [
-                      Obx(()=>TextField(
+                      // ✅ Email Field
+                      Obx(() => TextField(
                         controller: loginController.emailController.value,
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.person_outline),
-                          hintText: "Username or Email",
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          hintText: "Email",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                      ),),
+                      )),
                       const SizedBox(height: 16),
 
-                      // ✅ Correct Obx usage
+                      // ✅ Password Field
                       Obx(() => TextField(
                         controller: loginController.passwordController.value,
+                        obscureText: _obscurePassword,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
-                            icon: Icon(
-                             Icons.remove,
-                            ),
+                            icon: Icon(_obscurePassword
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined),
                             onPressed: () {
-                              _obscurePassword
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined;
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
                             },
                           ),
                           hintText: "Password",
@@ -69,9 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       )),
-
-
                       const SizedBox(height: 8),
+
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -85,13 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       const SizedBox(height: 10),
 
-                      // Login Button
-                      SizedBox(
+                      // ✅ Login Button
+                      Obx(() => SizedBox(
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(RouteName.homescreen);
+                          onPressed: loginController.loading.value ? null : () {
+                            loginController.loginApi();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueAccent,
@@ -99,13 +99,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text(
+                          child: loginController.loading.value
+                              ? const CircularProgressIndicator(
+                              color: Colors.white)
+                              : const Text(
                             "Login",
-                            style:
-                            TextStyle(fontSize: 18, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.white),
                           ),
                         ),
-                      ),
+                      )),
 
                       const SizedBox(height: 40),
 
