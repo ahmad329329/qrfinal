@@ -6,4 +6,7 @@ class RouteName{
   static const  String signupscreen = '/signup_screen';
   static const  String homescreen = '/home_screen';
   static const  String attendencerecordscreen = '/attendence_record_screen';
+  static const  String attendencestaticticsscreen = '/attendence_statictics_screen';
+  static const  String notifcationscreen = '/notification_screen';
+  static const  String classshedulescreen = '/class_shedule_screen';
 }

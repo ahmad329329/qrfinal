@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10),
-              const Text("Hello", style: TextStyle(fontSize: 18, color: Colors.black54)),
+              const Text("Welcome", style: TextStyle(fontSize: 18, color: Colors.black54)),
               Obx(() => Text(
                 controller.name.value,
                 style: TextStyle(
@@ -76,22 +76,22 @@ class HomeScreen extends StatelessWidget {
                       Icons.bar_chart,
                       "Attendance Statistics",
                           () {
-                        Get.toNamed(RouteName.attendencerecordscreen);
+                        Get.toNamed(RouteName.attendencestaticticsscreen);
                       },
                     ),
                     buildFeatureBox(
                       Icons.notifications,
                       "Notifications",
                       () {
-                        Get.toNamed(RouteName.attendencerecordscreen);
+                        Get.toNamed(RouteName.notifcationscreen);
                       },
                     ),
                     buildFeatureBox(
-                      Icons.person,
-                      "Profile",
-                          () {
-                        Get.toNamed(RouteName.attendencerecordscreen);
-                      },
+                      Icons.schedule,
+                      "Class Schedule",
+                       () {
+                         Get.toNamed(RouteName.classshedulescreen);
+                       }
                     ),
                   ],
                 ),

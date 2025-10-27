@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qrfinal/res/routes/routes_names.dart'; // only if you’re using GetX navigation
+import 'package:qrfinal/res/routes/routes_names.dart';
 
 class HomeSideDrawer extends StatelessWidget {
   const HomeSideDrawer({super.key});
@@ -12,10 +12,9 @@ class HomeSideDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
+          // Drawer Header
           const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
+            decoration: BoxDecoration(color: Colors.blue),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,7 +33,7 @@ class HomeSideDrawer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Student",
+                  "Student - BS(SE) 8th Semester",
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 14,
@@ -44,26 +43,46 @@ class HomeSideDrawer extends StatelessWidget {
             ),
           ),
 
-          // Drawer Items
-          _buildDrawerItem(Icons.home, "Home", () {
-            Get.back();
+          // 🔹 PROFILE & INFO
+          _buildSectionTitle("Profile"),
+          _buildDrawerItem(Icons.person_outline, "My Profile", () {
+            // Get.toNamed(RouteName.profileScreen);
           }),
-          _buildDrawerItem(Icons.qr_code_scanner, "Scan QR Code", () {
-            // Add navigation here if needed
+          _buildDrawerItem(Icons.badge_outlined, "Student ID Card", () {
+            // Get.toNamed(RouteName.studentIdScreen);
           }),
-          _buildDrawerItem(Icons.assignment_turned_in, "Attendance Record", () {
-            // Get.toNamed(RouteName.attendanceView);
+
+          // 🔹 SUPPORT & INFO
+          _buildSectionTitle("Information"),
+          _buildDrawerItem(Icons.info_outline, "About App", () {
+            // Get.toNamed(RouteName.aboutApp);
           }),
-          _buildDrawerItem(Icons.bookmark_remove_outlined, "About Us", () {
-            // Get.toNamed(RouteName.aboutUsView);
+          _buildDrawerItem(Icons.help_outline, "Help & Support", () {
+            // Get.toNamed(RouteName.helpScreen);
           }),
-          _buildDrawerItem(Icons.settings, "Settings", () {
-            // Get.toNamed(RouteName.settingsView);
+          _buildDrawerItem(Icons.privacy_tip_outlined, "Privacy Policy", () {
+            // Add link or route
+          }),
+          _buildDrawerItem(Icons.feedback_outlined, "Feedback", () {
+            // Get.toNamed(RouteName.feedbackScreen);
+          }),
+
+          // 🔹 SETTINGS
+          _buildSectionTitle("Settings"),
+          _buildDrawerItem(Icons.settings, "App Settings", () {
+            // Get.toNamed(RouteName.settingsScreen);
+          }),
+          _buildDrawerItem(Icons.language, "Change Language", () {
+            // Add language selection
+          }),
+          _buildDrawerItem(Icons.dark_mode_outlined, "Dark Mode", () {
+            // Add theme toggle
           }),
 
           const Divider(),
+
+          // 🔹 LOGOUT
           _buildDrawerItem(Icons.logout, "Logout", () {
-            // Example logout navigation
             Get.offAllNamed(RouteName.loginview);
           }, color: Colors.red),
         ],
@@ -71,7 +90,7 @@ class HomeSideDrawer extends StatelessWidget {
     );
   }
 
-  // Drawer Item Builder
+  // Drawer item widget
   Widget _buildDrawerItem(IconData icon, String title, VoidCallback onTap,
       {Color color = Colors.black87}) {
     return ListTile(
@@ -81,6 +100,21 @@ class HomeSideDrawer extends StatelessWidget {
         style: TextStyle(color: color, fontSize: 15),
       ),
       onTap: onTap,
+    );
+  }
+
+  // Section title
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, top: 10, bottom: 5),
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.blueGrey,
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

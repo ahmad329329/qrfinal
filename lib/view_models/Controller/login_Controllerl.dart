@@ -16,7 +16,6 @@ class LoginController extends GetxController {
 
   RxBool loading = false.obs;
 
-  // ✅ Email & Password Validation
   bool validateCredentials() {
     String email = emailController.value.text.trim();
     String password = passwordController.value.text.trim();
@@ -46,7 +45,7 @@ class LoginController extends GetxController {
 
   // ✅ API Call
   void loginApi() {
-    if (!validateCredentials()) return; // Validate before calling API
+    // if (!validateCredentials()) return; // Validate before calling API
 
     loading.value = true;
 
