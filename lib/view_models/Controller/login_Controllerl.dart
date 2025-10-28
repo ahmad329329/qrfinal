@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qrfinal/res/routes/routes_names.dart';
+import '../../models/login_model.dart';
 import '../../repository/login_repository/login_repository.dart';
 import '../../utils/utils.dart';
 
@@ -49,24 +50,23 @@ class LoginController extends GetxController {
 
     loading.value = true;
 
-    var data = {
-      "email": emailController.value.text.trim(),
-      "password": passwordController.value.text.trim(),
-    };
+    var loginData = LoginModel(
+      email: emailController.value.text,
+      password: passwordController.value.text,
+    );
 
     try {
-      var response = await _api.loginapi(data);
+      var response = await _api.loginapi(loginData.toJson());
 
-      var status = response['status'].toString().trim();
-      var message = response['message'] ?? 'No message from server';
+      var loginResponse = LoginResponse.fromJson(response);
 
-      if (status == 'success' || status == 'true' || status == '1') {
-        Utils.snackbar('Success', message);
+      if (loginResponse.status) {
+        Utils.snackbar('Success', loginResponse.message);
         storage.write('isLoggedIn', true);
-        storage.write('email', emailController.value.text.trim());
+        storage.write('email', loginData.email);
         Get.offAllNamed(RouteName.homescreen);
       } else {
-        Utils.snackbar('Error', message);
+        Utils.snackbar('Error', loginResponse.message);
       }
     } catch (e) {
       log('Login error: $e');
@@ -75,4 +75,5 @@ class LoginController extends GetxController {
       loading.value = false;
     }
   }
+
 }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:qrfinal/repository/Signup_repository/signup_repository.dart';
 import 'package:qrfinal/res/routes/routes_names.dart';
+import '../../models/signup_model.dart';
 import '../../utils/utils.dart';
 
 class SignupController extends GetxController {
@@ -75,25 +76,24 @@ class SignupController extends GetxController {
 
     loading.value = true;
 
-    var data = {
-      "name": nameController.value.text.trim(),
-      "reg_no": regNoController.value.text.trim(),
-      "degree": degreeController.value.text.trim(),
-      "email": emailController.value.text.trim(),
-      "password": passwordController.value.text.trim(),
-    };
+    var signupData = SignupModel(
+      name: nameController.value.text,
+      regNo: regNoController.value.text,
+      degree: degreeController.value.text,
+      email: emailController.value.text,
+      password: passwordController.value.text,
+    );
 
     try {
-      var response = await _api.signup(data);
+      var response = await _api.signup(signupData.toJson());
 
-      var status = response['status'].toString().trim();
-      var message = response['message'] ?? 'No message from server';
+      var signupResponse = SignupResponse.fromJson(response);
 
-      if (status == 'success' || status == 'true' || status == '1') {
-        Utils.snackbar('Success', message);
-        Get.offAllNamed(RouteName.homescreen); // ✅ go to home after signup
+      if (signupResponse.status) {
+        Utils.snackbar('Success', signupResponse.message);
+        Get.offAllNamed(RouteName.homescreen);
       } else {
-        Utils.snackbar('Error', message);
+        Utils.snackbar('Error', signupResponse.message);
       }
     } catch (e) {
       log('Signup error: $e');
@@ -102,4 +102,5 @@ class SignupController extends GetxController {
       loading.value = false;
     }
   }
+
 }
