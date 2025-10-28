@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
-      drawer: const HomeSideDrawer(),
+      drawer:  HomeSideDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: const Text("QR-based Attendance"),

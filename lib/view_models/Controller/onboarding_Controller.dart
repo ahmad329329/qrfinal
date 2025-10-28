@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qrfinal/repository/test_repository/test_repository.dart';
 import 'package:qrfinal/res/assets/image_assets.dart';
 import 'package:qrfinal/res/routes/routes_names.dart';
 
@@ -7,6 +8,17 @@ import 'package:qrfinal/res/routes/routes_names.dart';
 class OnboardingController extends GetxController {
   final PageController pageController = PageController();
   RxInt currentPage = 0.obs;
+
+  final _repo = TestRepository();
+
+  Future<void> checkConnection() async {
+    try {
+      var result = await _repo.testapi();
+      print("✅ API Connected Successfully: $result");
+    } catch (e) {
+      print("❌ Connection Failed: $e");
+    }
+  }
 
   final List<Map<String, String>> onboardingData = [
     {

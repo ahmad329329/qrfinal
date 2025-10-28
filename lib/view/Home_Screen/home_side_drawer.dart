@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:qrfinal/res/routes/routes_names.dart';
 
 class HomeSideDrawer extends StatelessWidget {
-  const HomeSideDrawer({super.key});
+   HomeSideDrawer({super.key});
+  final storage = GetStorage();
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +86,7 @@ class HomeSideDrawer extends StatelessWidget {
 
           // 🔹 LOGOUT
           _buildDrawerItem(Icons.logout, "Logout", () {
+            storage.write('isLoggedIn', false);
             Get.offAllNamed(RouteName.loginview);
           }, color: Colors.red),
         ],

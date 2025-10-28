@@ -13,6 +13,7 @@ class OnboardingScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // Top bar with progress and skip
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Obx(() {
@@ -25,14 +26,14 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: controller.skip,
-                      child: Text("skip".tr, style: TextStyle(color: Colors.black)),
+                      child: const Text("Skip", style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 );
               }),
             ),
 
-            // PageView
+            // PageView section
             Expanded(
               child: PageView.builder(
                 controller: controller.pageController,
@@ -44,6 +45,9 @@ class OnboardingScreen extends StatelessWidget {
                     image: data["image"]!,
                     title: data["title"]!.tr,
                     desc: data["desc"]!.tr,
+                    onButtonPressed: () {
+                      controller.checkConnection(); // example function
+                    },
                   );
                 },
               ),
@@ -62,7 +66,7 @@ class OnboardingScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // Navigation Buttons
+            // Navigation buttons
             Obx(() {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -73,7 +77,7 @@ class OnboardingScreen extends StatelessWidget {
                         ? const SizedBox(width: 60)
                         : TextButton(
                       onPressed: controller.previousPage,
-                      child: Text("previous".tr, style: TextStyle(color: Colors.grey)),
+                      child: const Text("Previous", style: TextStyle(color: Colors.grey)),
                     ),
                     controller.currentPage.value == controller.onboardingData.length - 1
                         ? ElevatedButton(
@@ -85,11 +89,13 @@ class OnboardingScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       ),
                       onPressed: controller.skip,
-                      child: Text("getstarted".tr, style: TextStyle(fontSize: 16, color: Colors.white)),
+                      child: const Text("Get Started",
+                          style: TextStyle(fontSize: 16, color: Colors.white)),
                     )
                         : TextButton(
                       onPressed: controller.nextPage,
-                      child: Text("next".tr, style: TextStyle(color: Colors.blueAccent)),
+                      child: const Text("Next",
+                          style: TextStyle(color: Colors.blueAccent)),
                     ),
                   ],
                 ),
@@ -101,21 +107,40 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 
-  // Page content widget
+  // Page content widget (now includes button below description)
   Widget buildOnboardPage({
     required String image,
     required String title,
     required String desc,
+    required VoidCallback onButtonPressed,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(image, height: 300),
           const SizedBox(height: 30),
-          Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 12),
-          Text(desc, textAlign: TextAlign.center, style: const TextStyle(color: Colors.grey)),
+          Text(
+            desc,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.grey),
+          ),
+          const SizedBox(height: 20),
+
+          // ✅ TextButton below description
+          TextButton(
+            onPressed: onButtonPressed,
+            child: const Text(
+              "Test Connection",
+              style: TextStyle(color: Colors.blueAccent, fontSize: 16),
+            ),
+          ),
         ],
       ),
     );
@@ -134,4 +159,3 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 }
-
