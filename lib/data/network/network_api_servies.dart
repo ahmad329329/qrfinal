@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -9,19 +10,26 @@ import 'package:qrfinal/data/network/base_api_services.dart';
 class NetworkApiServices extends BaseApiServices {
   dynamic responseJson;
 
-  Future<dynamic> getapi(String url) async {
-    if(kDebugMode){
-      log(responseJson);
+  // Default headers
+  Map<String, String> defaultHeaders = {
+    'Content-Type': 'application/json',
+    'x-api-key': 'reqres-free-v1',
+  };
+
+  Future<dynamic> getapi(String url, {Map<String, String>? headers}) async {
+    if (kDebugMode) {
       log("url: $url");
     }
 
     try {
-      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
+      final response = await http
+          .get(Uri.parse(url), headers: headers ?? defaultHeaders)
+          .timeout(const Duration(seconds: 10));
 
       responseJson = returnresponse(response);
     } on SocketException {
       throw InternetException();
-    } on RequestTimeOutException {
+    } on TimeoutException {
       throw RequestTimeOutException();
     } on HttpException {
       throw ServerException();
@@ -30,22 +38,23 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
-  Future<dynamic> postapi(var data, String url) async {
-
-    if(kDebugMode){
+  Future<dynamic> postapi(var data, String url,
+      {Map<String, String>? headers}) async {
+    if (kDebugMode) {
       log("url: $url");
       log("data: $data");
     }
 
     try {
-      final response = await http.post(Uri.parse(url),
-          body: jsonEncode(data)
-      ).timeout(const Duration(seconds: 10));
+      final response = await http
+          .post(Uri.parse(url),
+          body: jsonEncode(data), headers: headers ?? defaultHeaders)
+          .timeout(const Duration(seconds: 10));
 
       responseJson = returnresponse(response);
     } on SocketException {
       throw InternetException();
-    } on RequestTimeOutException {
+    } on TimeoutException {
       throw RequestTimeOutException();
     } on HttpException {
       throw ServerException();
@@ -53,8 +62,6 @@ class NetworkApiServices extends BaseApiServices {
 
     return responseJson;
   }
-
-
 
   dynamic returnresponse(http.Response response) {
     switch (response.statusCode) {
@@ -63,11 +70,9 @@ class NetworkApiServices extends BaseApiServices {
         return responseJson;
       case 400:
         throw BadRequestException(response.body.toString());
-
       default:
         throw FetchDataException(
-            "Error occured while communicating with server with status code ${response
-                .statusCode}");
+            "Error occured while communicating with server with status code ${response.statusCode}");
     }
   }
 }

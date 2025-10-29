@@ -59,14 +59,13 @@ class LoginController extends GetxController {
       var response = await _api.loginapi(loginData.toJson());
 
       var loginResponse = LoginResponse.fromJson(response);
+      log('Login token: ${loginResponse.token}');
 
-      if (loginResponse.status) {
-        Utils.snackbar('Success', loginResponse.message);
-        storage.write('isLoggedIn', true);
-        storage.write('email', loginData.email);
+      if (loginResponse.token != null) {
+        Utils.snackbar('Success', 'Login successful!');
         Get.offAllNamed(RouteName.homescreen);
       } else {
-        Utils.snackbar('Error', loginResponse.message);
+        Utils.snackbar('Error', 'Login failed!');
       }
     } catch (e) {
       log('Login error: $e');
@@ -75,5 +74,6 @@ class LoginController extends GetxController {
       loading.value = false;
     }
   }
+
 
 }

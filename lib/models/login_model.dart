@@ -1,5 +1,7 @@
 // login_model.dart
 
+import 'dart:developer';
+
 class LoginModel {
   final String email;
   final String password;
@@ -23,15 +25,16 @@ class LoginModel {
 
 // Response model
 class LoginResponse {
-  final bool status;
-  final String message;
+  final String? token;
 
-  LoginResponse({required this.status, required this.message});
+  LoginResponse({this.token});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      status: json['status'].toString().toLowerCase() == 'true' || json['status'].toString() == '1',
-      message: json['message'] ?? '',
+      token: json['token'],
+
+      // Reqres returns only token
     );
   }
 }
+
